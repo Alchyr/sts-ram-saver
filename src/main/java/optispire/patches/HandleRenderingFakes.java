@@ -206,6 +206,7 @@ public class HandleRenderingFakes {
     public static class FakeTextures {
         @SpirePrefixPatch
         public static void handleFakeTexture(@ByRef Texture[] texture) {
+            if (texture[0] == null) return;
             texture[0] = texture[0].getRealTexture();
         }
     }

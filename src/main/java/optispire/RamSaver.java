@@ -93,6 +93,8 @@ public class RamSaver {
     private static int nextSet = 0;
     private static float timer = TICK;
 
+    //public static Texture blank = new Texture(1, 1, Pixmap.Format.RGBA8888);
+
     /*
         ManagedAsset pooling rules:
         When an asset is asked for, get existing one if it exists, otherwise load new one.
@@ -204,8 +206,6 @@ public class RamSaver {
         textures.put(textureID, texSupplier);
     }
 
-    //TODO - Make this return a class that overrides Texture, use it to track preferences for textures based on ID
-    // (Specifically stuff like TextureFilter settings)
     private static Texture makeTexture(String path) {
         try {
             Texture t = new Texture(path);

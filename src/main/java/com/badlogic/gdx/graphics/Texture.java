@@ -107,10 +107,13 @@ public class Texture extends GLTexture {
 
 
     public Texture getRealTexture() {
+        return getRealTexture(true);
+    }
+    public Texture getRealTexture(boolean canAge) {
         if (!isFake)
             return this;
-        
-        return RamSaver.getTexture(null, file.path());
+
+        return RamSaver.getTexture(null, file.path(), canAge);
     }
 
 
@@ -598,7 +601,7 @@ public class Texture extends GLTexture {
             t.height = t.getHeight();
             return;
         }
-        //swap to switch if adding more
+
         if (t.file != null) {
             Consumer<Texture> sizeGetter = sizeGetters.get(t.file.extension().toLowerCase());
             if (sizeGetter != null) {
