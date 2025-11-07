@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.graphics.glutils.PixmapTextureData;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -132,6 +133,20 @@ public class Texture extends GLTexture {
                 this.setFilter(this.minFilter, this.magFilter);
                 this.setWrap(this.uWrap, this.vWrap);
                 Gdx.gl.glBindTexture(this.glTarget, 0);
+            }
+        }
+        else {
+            //if data is provided then it's already loaded a pixmap
+            data.disposePixmap();
+
+            if (data instanceof FileTextureData) {
+                file = ((FileTextureData) data).getFileHandle();
+                format = data.getFormat();
+                useMipMaps = data.useMipMaps();
+
+                if (!RamSaver.textureExists(file.path())) {
+                    RamSaver.registerTexture(file.path(), new RamSaver.FileTextureSupplier(file, format, useMipMaps));
+                }
             }
         }
     }
